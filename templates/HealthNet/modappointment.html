@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{%  include 'HealthNet/base.html' %}
+<html xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>HealthNet</title>
+
+        {%  include "HealthNet/appointmentStyle.html" %}
+    </head>
+
+    <body>
+        <div class = "information">
+            <div class = "nav top">
+                <h1 style="color: white;"><i class="fa fa-heartbeat"></i> Modify Your Appointment</h1>
+            </div>
+
+
+            {% if modified %}
+                <center>
+                    <h2 class="text">Your appointment has been changed</h2>
+                    <button type="submit" class="btn btn-danger" onclick="close_window();return false;"/><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </center>
+            {% elif deleted %}
+                <center>
+                    <h2 class="text">Your appointment has been deleted</h2>
+                    <button type="submit" class="btn btn-danger" onclick="close_window();return false;"/><span class="glyphicon glyphicon-remove"></span> Close</button>
+                </center>
+            <!--<a href="/HealthNet/">Return to the homepage.</a><br />-->
+            {% else %}
+                <div class = "infocreate">
+                    <form class="form-horizontal" action="/modappointment?app_id={{ id }}&delete=false" method="POST">
+                        {% csrf_token %}
+                        <div class="input">
+
+                            {% if type == 'patient' or type == 'nurse'%}
+                                <div class="row control-group">
+                                    <label for="id_doctor"><i class="fa fa-user-md"></i> Doctor Username:</label> {{ appointmentForm.doctor }}
+                                    <span><label class="pull-right">Doctor: {{ appointment.doctor.doctor.first_name }} {{ appointment.doctor.doctor.last_name }}</label></span>
+                                </div>
+                            {% endif %}
+
+                            {% if type == 'doctor' or type == 'nurse'%}
+                                <div class="row control-group">
+                                    <label for="id_doctor"><i class="fa fa-user"></i> Patient Username:</label> {{ appointmentForm.patient}}
+                                    <span><label class="pull-right">Name: {{ appointment.patient.patient.first_name }} {{ appointment.patient.patient.last_name }}</label></span>
+                                </div>
+                            {% endif %}
+
+                            <br>
+                            <div class="row control-group">
+                                <label class="control-label" for="id_date"><i class="fa fa-calendar-o"></i> Date:</label>
+                                <input class="form-control" id="id_date" name="date" type="text" value="{{ appointment.date.year }}-{{ appointment.date.month }}-{{ appointment.date.day}}" />
+                            </div>
+                            <br>
+                            <div class="row control-group">
+                                <label class="cotrol-label" for="id_time"><i class="fa fa-clock-o"></i> Time:</label>
+                                <input class="form-control" id="id_time" name="time" type="text" value="{{ appointment.time.hour }}:{{ appointment.time.minute }}:{{ appointment.time.second }}" />
+                            </div>
+                        </div>
+
+                        {% if conflict %}
+                            <p class="invalid">There is already an appointment at that time</p>
+                        {% endif %}
+                        <br>
+                        <button type="submit" class="btn btn-success"/><span class="glyphicon glyphicon-save"></span> Save</button>
+                    </form>
+
+                    {% if type != 'nurse' %}
+                        <form action="/delappointment?app_id={{ id }}&delete=true" method="POST">
+                            {% csrf_token %}
+                            {% if type == 'doctor' or type == 'patient' %}
+                                <button type="submit" class="btn btn-warning"/><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                            {% endif %}
+                        </form>
+                    {%  endif %}
+
+                    <div class="cancelButton">
+                        <button type="reset" class="btn btn-danger" onclick="close_window();return false;"/><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    </div>
+                 </div>
+            {% endif %}
+        </div>
+    </body>
+
+    <script>
+        function close_window(){
+            window.close();
+        }
+    </script>
+</html>

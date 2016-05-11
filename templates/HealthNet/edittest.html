@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+    {%  include 'HealthNet/base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    <style>
+        .top {
+            background: #3B5998;
+            height: 17vh;
+            position: fixed;
+            top:0;
+            left:0;
+            padding-left: 1vw;
+            padding-top: 2.5vh;
+            width: 100%;
+            box-shadow: 3px 3px 20px black;
+        }
+
+        .body{
+            margin-top: 25vh;
+        }
+
+        .info{
+            margin-left: 15%;
+        }
+
+        .btn {
+            margin-top: 11vh;
+        }
+
+        .btn-success {
+            position: fixed;
+        }
+
+        .btn-warning {
+            position: fixed;
+            margin-left: 46%
+        }
+
+        .cancelButton {
+            position: fixed;
+            margin-left: 80%;
+            margin-bottom: 20vh;
+        }
+
+    </style>
+</head>
+<body>
+    <div class = "information">
+        <div class = "top">
+            <h1 class="title" style="color: white;"><i class="fa fa-heartbeat"></i> Edit Test</h1>
+        </div>
+
+        <div class="body">
+            <form class="info" action="/viewprofile?patient={{ patient.patient.id }}&releasing={{ False }}&testId={{ testId }}&new={{ False }}&edited={{ True }}&delete={{ False }}#tests" method="POST">
+                {% csrf_token %}
+                <table class="table " align="center" >
+                    Test Name: {{ modForm.testName  }}
+                    Results: {{ modForm.result }}
+                    Notes: {{ modForm.notes }}
+                </table>
+                <br>
+                <button type="submit" class="btn btn-success pull-left"/><span class="glyphicon glyphicon-ok"></span> Save</button>
+            </form>
+            <form action="/viewprofile?patient={{ patient.patient.id }}&releasing={{ False }}&testId={{ testId }}&edited={{ True }}&new={{ False }}&delete={{ True }}#tests" method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-warning pull-right"/><span class="glyphicon glyphicon-trash"></span> Delete</button>
+            </form>
+
+            <div class="cancelButton">
+                <form action="/viewprofile?patient={{ patient.patient.id }}&releasing={{ False }}&testId={{ testId }}&new={{ False }}&edited={{ False }}&delete={{ False }}#tests" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger"/><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

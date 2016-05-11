@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .modal-header{
+            background-color: #3B5998;
+            color: white;
+            text-align: center;
+            border: none;
+            box-shadow: 0px 3px 5px black;
+        }
+    </style>
+</head>
+<body>
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Admit Patient</h3>
+            </div>
+
+
+            <form role="form" id="newTest_form" method="post" action="/viewprofile?patient={{ patient.patient.id }}#profile">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <table class="table">
+                        {{ visitForm.as_table }}
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</body>
+</html>

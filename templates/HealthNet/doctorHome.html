@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    <style>
+        .panel-default{
+            margin:auto;
+            margin-top: 5vh;
+            margin-bottom: 5vh;
+            width: 75vw;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: #3B5998"><strong>News</strong></div>
+        <div class="panel-body">{{ news.content }}</div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading" style="color: #3B5998"><strong>Hospital Information</strong></div>
+        <div class="panel-body">
+            {{ doctor.hospital }}<br>
+            {{ doctor.hospital.number }} {{ doctor.hospital.street }}<br>
+            {{ doctor.hospital.town }}, {{ doctor.hospital.state }} {{ doctor.hospital.zip }}<br><br>
+            Phone: {{ doctor.hospital.phone }}
+        </div>
+    </div>
+</body>
+</html>

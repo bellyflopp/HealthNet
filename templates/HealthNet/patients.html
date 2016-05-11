@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .patientType{
+            color: #3B5998;
+            padding-left: 1vw;
+        }
+    </style>
+</head>
+<body>
+    {%  if type == 'doctor' %}
+        <h3 class="patientType">My Patients</h3>
+    {% else %}
+        <h3 class="patientType">Hospital Patients</h3>
+    {% endif %}
+    <table class="table table-hover" data-link="row">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Hospital</th>
+
+                {% if type == 'nurse' %}
+                    <th>Doctor</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in patients %}
+                <tr id="{{ patient.patient.id }}" class="clickable-row" href='/viewprofile?patient={{ patient.patient.id }}'>
+                    <td>{{ patient }}</td>
+                    <td>{{ patient.patient.first_name }}</td>
+                    <td>{{ patient.patient.last_name }}</td>
+                    <td>{{ patient.patient.email}}</td>
+                    <td>{{ patient.phone }}</td>
+                    <td>{{ patient.hospital }}</td>
+                    {% if type == 'nurse' %}
+                        <td>Dr. {{ patient.doctor.doctor.first_name }} {{ patient.doctor.doctor.last_name }}</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+
+    {% if type == 'doctor' %}
+        <h3 class="patientType">All Patients</h3>
+
+         <table class="table table-hover" data-link="row">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Hospital</th>
+                <th>Doctor</th>
+                <th>Transfer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for patient in all %}
+                <tr id="{{ patient.patient.id }}" class="clickable-row" href='/viewprofile?patient={{ patient.patient.id }}&new={{ False }}&edited={{ False }}&delete={{ False }}'>
+                    <td>{{ patient }}</td>
+                    <td>{{ patient.patient.first_name }}</td>
+                    <td>{{ patient.patient.last_name }}</td>
+                    <td>{{ patient.patient.email}}</td>
+                    <td>{{ patient.phone }}</td>
+                    <td>{{ patient.hospital }}</td>
+                    <td>Dr. {{ patient.doctor.doctor.first_name }} {{ patient.doctor.doctor.last_name }}</td>
+                    {% if doctor != patient.doctor %}
+                        <td>
+                        <a role="button" type="submit" class="btn btn-warning transbutton" href="/transfer?patientId={{ patient.id }}&hospitalId={{ doctor.hospital.id }}&doctorId={{ doctor.id }}">
+                                        <i class="fa fa-pencil-square-o"></i> Transfer
+                                    </a>
+                        </td>
+                    {% else %}
+                        <td></td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+</body>
+
+<script>
+    jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            var href = $(this).attr("href");
+            window.open(href);
+        });
+        $(".transbutton").click(function() {
+            event.stopPropagation()
+        })
+    });
+</script>
+</html>

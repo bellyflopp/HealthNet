@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+</head>
+<body>
+    <div class="panel-body">
+        {% for result in testResults %}
+            <form action="/doctor/upload?testId={{ result.id }}" method="post">
+                {% csrf_token %}
+                Test: {{ result.testName }}
+                </br>
+                <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Upload Files</button>
+            </form>
+            <form action="/doctor/testfiles?testId={{ result.id }}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>View Files</button>
+            </form>
+            <form action="/doctor/releasetest?testId={{ result.id }}" method="post">
+                {% csrf_token %}
+                {% if result.isReleased %}
+                    <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Withdraw Test</button>
+                {% else %}
+                    <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Release Test</button>
+                {% endif %}
+            </form>
+            <a href="/doctor/edittest?testId={{ result.id }}&delete=False">Edit Test</a>
+            </br></br>
+        {% endfor %}
+        </br>
+        <form action="/doctor/testresult">
+            <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Add New</button>
+        </form>
+    </div>
+</body>
+</html>

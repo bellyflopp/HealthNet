@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+</head>
+<body>
+</body>
+<script>
+    var url = document.location.toString();
+
+    window.onbeforeunload = function(e) {
+        if (url.match('/HealthNet/#profile')) {
+            $('.nav-tabs a[href="#profile"] ').tab('show');
+        } else if (url.match('/HealthNet/#medical')) {
+            $('.nav-tabs a[href="#medical"] ').tab('show');
+        } else if (url.match('/HealthNet/#calendar')) {
+            $('.nav-tabs a[href="#calendar"] ').tab('show');
+        } else if (url.match('/HealthNet/#messages')) {
+            $('.nav-tabs a[href="#messages"] ').tab('show');
+        } else if (url.match('/viewprofile?patient=^\d+$#prescriptions')) {
+            $('.nav-tabs a[href="#prescriptions"] ').tab('show');
+        } else if (url.match('/viewprofile?patient=^\d+$#tests')) {
+            $('.nav-tabs a[href="#tests"] ').tab('show');
+        } else {
+            $('.nav-tabs a[href="#home"] ').tab('show');
+        }
+    };
+
+
+
+{#    if (url.match('/HealthNet/#calendar')) {#}
+{#        $('.nav-tabs a[href="#calendar"] ').tab('show');#}
+{#    }#}
+
+    // Change hash for page-reload
+    $('.nav-tabs a').on('shown.bs.tab', function (e) {
+        window.location.hash = e.target.hash;
+    })
+
+     $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+         $('#calendar').fullCalendar('today');
+     });
+
+    $(function(){
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+        $('.nav-tabs a').click(function (e) {
+            $(this).tab('show');
+            var scrollmem = $('body').scrollTop() || $('html').scrollTop();
+
+            window.location.hash = this.hash;
+            $('html,body').scrollTop(scrollmem);
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>Login to HealthNet</title>
+
+    <style>
+        .modal-header{
+            background-color: #3B5998;
+            color: white;
+            text-align: center;
+            border: none;
+            box-shadow: 0px 3px 5px black;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">Login to HealthNet</h3>
+            </div>
+
+
+            <form role="form" id="login_form" method="post" action="{% url 'login:HealthNet' %}">
+                {%  csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="username"><span class="glyphicon glyphicon-user"></span> Username</label>
+                        <input type="text" name="username" class="form-control" placeholder="username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"><span class="glyphicon glyphicon-eye-open"></span> Password</label>
+                        <input type="password" name="password" class="form-control" placeholder="password" required>
+                    </div>
+
+                    {%  if valid == False %}
+                         <p class="text-danger">Invalid credentials, please try again.</p>
+                    {%  endif %}
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-off"></span> Login</button>
+                    <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</body>
+</html>

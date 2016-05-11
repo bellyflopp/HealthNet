@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include 'HealthNet/base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+</head>
+<body>
+        {% if type == 'patient' %}
+            {% include 'HealthNet/patientHome.html' %}
+        {% elif type == 'nurse' %}
+            {% include 'HealthNet/nurseHome.html' %}
+        {% else %}
+            {%  include 'HealthNet/doctorHome.html'%}
+        {% endif %}
+</body>
+</html>

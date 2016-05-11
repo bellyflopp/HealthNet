@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+    {%  include 'HealthNet/base.html' %}
+<head>
+    <meta charset="UTF-8">
+    <title>Upload</title>
+    <style>
+        .top {
+                background: #3B5998;
+                height: 17vh;
+                position: fixed;
+                top:0;
+                left:0;
+                padding-left: 1vw;
+                padding-top: 2.5vh;
+                width: 100%;
+                box-shadow: 3px 3px 20px black;
+            }
+
+        .upload{
+            margin-top: 15%;
+            margin-left: 10%;
+        }
+
+        .files{
+            margin-left: 10%;
+        }
+    </style>
+</head>
+<body>
+    <div class = "information">
+        <div class = "top">
+            <h1 class="title" style="color: white;"><i class="fa fa-heartbeat"></i> Upload File</h1>
+        </div>
+
+        <div class="upload">
+            <h3 style="color: #3B5998">New File</h3>
+
+            <form action="/doctor/upload?testId={{ testId }}&patient={{ patientId }}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ fileForm }}
+                <button type="submit" class="btn btn-success" style="margin-top: 1vh"><i class="fa fa-upload"></i> Upload</button>
+            </form>
+        </div>
+
+        <div class="files">
+            <h3 style="color: #3B5998">Files</h3>
+
+            {% for file in testFiles %}
+                <a href="/serve?userid={{ file.user.id }}&filename={{ file.shortname }}">{{ file.shortname }}</a>
+                </br>
+            {% endfor %}
+
+            <form action="/viewprofile?patient={{ patientId }}#tests" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger pull-left">Back</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

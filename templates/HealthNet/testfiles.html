@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+</head>
+<body>
+    {% for file in testFiles %}
+        <a href="serve?userid={{ user.id }}&filename={{ file.shortname }}">{{ file.shortname }}</a>
+        </br>
+    {% endfor %}
+    <form action="/doctor/#tests" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Back</button>
+    </form>
+</body>
+</html>

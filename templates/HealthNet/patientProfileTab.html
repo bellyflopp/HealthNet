@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    <style>
+        .profile{
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            padding-left: 10vh;
+            padding-right: 10vh;
+        }
+
+        .col-lg-5{
+            margin-top: 3vh;
+            margin-left: 5vw;
+        }
+
+        .col-lg-3, .col-lg-8{
+            margin-top: 1vh;
+            margin-bottom: 1vh;
+        }
+
+        .contact{
+            margin-top: 25vh;
+        }
+
+        .admit{
+            margin-right: 5vw;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="row profile">
+        <h1 style="color: #3B5998">{{ patient.patient.first_name }} {{ patient.patient.last_name }}'s Profile </h1>
+
+        {% if patient.admissionStatus %}
+            {% if type != 'patient' %}
+                <form role="form" method="post" action="/discharge?patient={{ patient.patient.id }}">
+                    {% csrf_token %}
+                    <button type="submit" class="admit btn btn-danger pull-right"><i class="fa fa-user-times"></i> Discharge</button>
+                </form>
+            {% endif %}
+
+            <h4>Doctor: {{ patient.doctor.doctor.first_name }} {{ patient.doctor.doctor.last_name }}</h4>
+            <h4>Hospital: {{ patient.hospital }}</h4>
+            <h4>Admission Status: <span style="color: limegreen">Admitted</span></h4>
+
+        {% else %}
+            {% if type != 'patient' %}
+                <button type="submit" class="admit btn btn-success pull-right" data-toggle="modal" data-target="#admit"><i class="fa fa-user-plus"></i> Admit For Extended Stay</button>
+            {% endif %}
+
+            <h4>Doctor: {{ patient.doctor.doctor.first_name }} {{ patient.doctor.doctor.last_name }}</h4>
+            <h4>Hospital: {{ patient.hospital }}</h4>
+            <h4>Admission Status: <span style="color: red">Not Admitted</span></h4>
+        {% endif %}
+
+
+        <div class="col-lg-5">
+            <h4>Personal Information</h4>
+
+            <label class="col-lg-3 control-label">Birthday:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.birthday }}</label>
+            </div>
+
+            <label class="col-lg-3 control-label">Gender:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.gender }}</label>
+            </div>
+
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.patient.email }}</label>
+            </div>
+
+            <label class="col-lg-3 control-label">Phone:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.phone }}</label>
+            </div>
+
+            <h4 class="contact">Emergency Contact</h4>
+
+            <label class="col-lg-3 control-label">Name:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.emergencyContactFirst }} {{ patient.emergencyContactLast }}</label>
+            </div>
+            <label class="col-lg-3 control-label">Email:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.emergencyContactEmail }}</label>
+            </div>
+
+            <label class="col-lg-3 control-label">Phone:</label>
+            <div class="col-lg-8">
+                <label>{{ patient.emergencyContactPhone }}</label>
+            </div>
+        </div>
+
+        <div class="col-lg-5">
+            <h4>Medical Information</h4>
+            <form class="form-horizontal" id="modmedical_form" role="form" method="post" action="/viewprofile?patient={{ patient.patient.id }}#profile">
+                {% csrf_token %}
+                <fieldset>
+                    <div class="control-group">
+                        <label class="col-lg-3 control-label">Height:</label>
+                        <div class="col-lg-8">
+                            {{ medForm.height }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="col-lg-3 control-label">Weight:</label>
+                        <div class="col-lg-8">
+                            {{ medForm.weight }}
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="col-lg-3 control-label">Blood Type:</label>
+                        <div class="col-lg-8">
+                            {{ medForm.bloodType }}
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="form-actions">
+                    <div class="col-md-8">
+                        <button type="submit" class="btn btn-success"/><span class="glyphicon glyphicon-save"></span> Save</button>
+                        <span></span>
+                        <button type="reset" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="admit" class="modal fade" role="dialog">
+        {% include "HealthNet/admitPatient.html" %}
+    </div>
+</body>
+</html>

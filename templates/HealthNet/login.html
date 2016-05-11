@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <title>HealthNet</title>
+    <style>
+        body {
+            background-color: #3B5998;
+        }
+
+        .navbar.navbar-primary {
+            background: #3B5998;
+            border-style: none;
+            border-radius: 0;
+            box-shadow: 3px 3px 20px black;
+        }
+
+        .nav.navbar-nav.navbar-right li a{
+            color: white;
+        }
+
+        .nav.navbar-nav.navbar-right li a:hover{
+            background-color: #2a376f;
+        }
+
+        .container{
+            padding-top: 5vh;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-primary">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" style="color: white"><i class="fa fa-heartbeat"></i><strong> HealthNet</strong></a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/register"><i class="fa fa-user-plus"></i></span> Register</a></li>
+                <li><a href="" data-toggle="modal" data-target="#login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+                <!-- Modal -->
+                <div id="login" class="modal fade" role="dialog">
+                    {% include "HealthNet/loginPopUp.html" %}
+                </div>
+
+                {%  if valid == False %}
+                    <script>
+                        $(document).ready(function () {
+                            $('#login').modal('show');
+                        });
+                    </script>
+                {% endif %}
+
+            </ul>
+
+        </div>
+    </nav>
+
+    <div class="container">
+        {% include "HealthNet/pictures.html" %}
+    </div>
+
+</body>
+</html>

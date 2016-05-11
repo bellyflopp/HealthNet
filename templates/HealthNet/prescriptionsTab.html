@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .perscriptions{
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            padding-left: 10vh;
+            padding-right: 10vh;
+        }
+
+        .panel-title{
+            padding-top: 1vh;
+            padding-left: 1vw;
+        }
+
+        .col-md-2{
+            margin-left: 8vh;
+        }
+
+        .col-lg-12{
+            margin-top: 2vh;
+        }
+    </style>
+</head>
+<body>
+    <div class="row perscriptions">
+        <h1 style="color: #3B5998">{{ patient.patient.first_name }} {{ patient.patient.last_name }}'s Perscriptions </h1>
+
+        {% if type == 'doctor' %}
+            {% if patient.doctor == doctor %}
+                <button type="submit" class="btn btn-success pull-right" data-toggle="modal" data-target="#newPrescription"><i class="glyphicon glyphicon-plus"></i> Add Prescription</button>
+            {%  endif %}
+        {% endif %}
+
+        <div class="col-lg-12">
+            {% for prescription in prescriptions %}
+                <div class="panel panel-default" style="width: 98% !important;">
+                    <div class="panel-heading clearfix">
+                        <div class="row">
+                            <strong class="panel-title pull-left">Medication: {{ prescription.name }}</strong>
+
+                            {% if type == 'doctor' %}
+                                {% if patient.doctor == doctor %}
+                                    <div class="col-md-2 pull-right">
+                                        <form action="/viewprofile?patient={{ patient.patient.id }}&pId={{ prescription.id }}&deleted={{ True }}#prescriptions" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span> Delete</button>
+                                        </form>
+                                    </div>
+                                {%  endif %}
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <strong>Doctor: </strong>
+                        {{ prescription.doctor }}
+                        <br><br>
+                        <strong>Date: </strong>
+                        {{ prescription.date }}
+                        <br><br>
+                        <strong>Notes: </strong>
+                        {{ prescription.note }}
+                        <br><br>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="newPrescription" class="modal fade" role="dialog">
+        {% include "HealthNet/newPrescription.html" %}
+    </div>
+</body>
+</html>

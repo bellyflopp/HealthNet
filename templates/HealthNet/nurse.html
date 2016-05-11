@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    {% include 'HealthNet/homeStyle.html' %}
+</head>
+<body>
+    <div class = "top">
+        <div class = "userid" style="color: #3B5998">Staff ID: {{ user.id }}</div>
+        <h1 style="color: white;"><i class="fa fa-heartbeat"></i> Welcome to HealthNet, Nurse {{ user.first_name }} {{ user.last_name }}</h1>
+
+        <form action="/logout/" class = "logbuttonform">
+            <button type="submit" class="btn btn-default pull-right"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+        </form>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" id="home_tab" href="#home"><span class="glyphicon glyphicon-home"></span><strong> Home</strong></a></li>
+        <li><a data-toggle="tab" id="patients_tab" href="#patients"><i class="fa fa-users"></i><strong> View Patients</strong></a></li>
+        <li><a data-toggle="tab" id="calendar_tab" href="#calendar"><span class="glyphicon glyphicon-calendar"></span><strong> View Appointments</strong></a></li>
+        <li><a data-toggle="tab" id="messages_tab" href="#messages"><span class="glyphicon glyphicon-envelope"></span><strong> Messages</strong></a></li>
+
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            {% include "HealthNet/nurseHome.html" %}
+        </div>
+
+        <div id="patients" class="tab-pane fade">
+            {% include "HealthNet/patients.html" %}
+        </div>
+
+        <div id="messages" class="tab-pane fade">
+            {% include "HealthNet/message.html" %}
+        </div>
+
+        <div id="calendar" class="tab-pane fade">
+            {% include "HealthNet/calendar.html" %}
+        </div>
+    </div>
+</body>
+
+{%  include 'HealthNet/homeScripts.html' %}
+
+</html>

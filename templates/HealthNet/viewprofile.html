@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    {%  include 'HealthNet/homeStyle.html' %}
+</head>
+
+<body>
+    <div class = "top">
+        <h1 class="HealthNet" style="color: white;"><i class="fa fa-heartbeat"></i> View Patient's Profile</h1>
+        <div class = "logbuttonform">
+        </div>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" id="home_tab" href="#profile"><span class="glyphicon glyphicon-user"></span><strong> Profile</strong></a></li>
+        <li><a data-toggle="tab" id="prescriptions_tab" href="#prescriptions"><i class="fa fa-eyedropper"></i><strong> View Prescriptions</strong></a></li>
+
+        {% if type == 'doctor' %}
+        <li><a data-toggle="tab" id="tests_tab" href="#tests"><i class="fa fa-flask"></i><strong> View Tests</strong></a></li>
+        {% endif %}
+    </ul>
+
+    <div class="tab-content">
+        <div id="profile" class="tab-pane fade in active">
+            {% include "HealthNet/patientProfileTab.html" %}
+        </div>
+
+        <div id="prescriptions" class="tab-pane fade">
+            {% include "HealthNet/prescriptionsTab.html" %}
+        </div>
+
+        <div id="tests" class="tab-pane fade">
+            {% include "HealthNet/testsTab.html" %}
+        </div>
+    </div>
+</body>
+
+{% include 'HealthNet/homeScripts.html' %}
+
+</html>

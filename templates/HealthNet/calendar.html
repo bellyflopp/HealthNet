@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>HealthNet</title>
+    <link rel="stylesheet" href="{% static "fullcalender/fullcalendar.css" %}" />
+
+{#    <script type="text/javascript"  src= "{% static "fullcalender/jquery-1.12.1.js" %}"></script>#}
+    <script src="{% static "fullcalender/moment.min.js" %}"></script>
+{#    <script src="{% static "fullcalender/jquery.min.js" %}"></script>#}
+    <script src="{% static "fullcalender/fullcalendar.min.js" %}"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            // page is now ready, initialize the calendar...
+            $('#calendar').fullCalendar({
+                events: [
+                    {% for appt in appointments %}
+                    {
+                        allDay  :   false,
+                        url     :   '/modappointment?app_id={{ appt.id }}&delete=false',
+                        title   :   '{{ appt }}',
+                        start   :   '{{ appt.dateString }}',
+                        end     :   '{{ appt.dateStringEnd }}',
+                    },
+                    {% endfor %}
+                    {
+                        title   :   '',
+                        start   :   '2000-03-16'
+                    }
+                ],
+                eventClick: function(event) {
+                      if (event.url) {
+                          var win;
+                          var i = 0;
+                          win = window.open(event.url, "modappointment");
+                          refresher();
+                          function refresher() {
+                              if(i < 100) {
+                                  if (win.closed) {
+                                      location.reload();
+                                      return false;
+                                  }
+                                  else {
+                                      setTimeout(refresher, 1000);
+                                      i++
+                                  }
+                              }
+                          }
+                          return false;
+                      }
+                    $('#mod').on('hide.bs.modal', function(e) {
+                        $(e).removeData('bs.modal');
+                    });
+                },
+
+                customButtons: {
+                    createButton: {
+                        text: 'create appointment',
+                        click: function(event) {
+                            $("#create").modal("show");
+                        }
+                    }
+                },
+
+                {%  if type == 'nurse' %}
+                    defaultView: 'agendaWeek',
+                {%  endif %}
+
+                today: true,
+                height: $(window).height() - 150,
+                businessHours: true,
+                selectable: true,
+                overlap: false,
+                weekends: true,
+                header:
+                        {
+                            left: 'prev,next today createButton,',
+                            center: 'title',
+                            {% if type == 'nurse' %}
+                                right: 'agendaWeek,agendaDay',
+                            {% else %}
+                                right: 'month,agendaWeek,agendaDay'
+                            {% endif %}
+                        }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <!-- Modal -->
+    <div id="create" class="modal fade" role="dialog">
+        {%  include "HealthNet/makeappointment.html" %}
+    </div>
+
+    <div id="calendar"></div>
+
+<script>
+    {%  if created or modified or deleted%}
+        location.reload();
+    {% endif %}
+</script>
+</body>
+</html>

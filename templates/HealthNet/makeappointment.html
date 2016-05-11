@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>HealthNet</title>
+
+        <style>
+            .modal-header{
+                background-color: #3B5998;
+                color: white;
+                text-align: center;
+                border: none;
+                box-shadow: 0px 3px 5px black;
+            }
+
+            .table{
+                border: none;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class = "information">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Create New Appointment</h3>
+                    </div>
+
+                    {% if type == 'doctor' %}
+                        <form role="form" id="makeappointment_form" method="post" action="/doctor/#calendar">
+                    {% elif type == 'nurse' %}
+                        <form role="form" id="makeappointment_form" method="post" action="/nurse/#calendar">
+                    {% else %}
+                        <form role="form" id="makeappointment_form" method="post" action="/HealthNet/#calendar">
+                    {% endif %}
+                            {%  csrf_token %}
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label class="control-label" for="id_doctor"><i class="fa fa-user-md"></i> Doctor Username:</label> {{ appointmentForm.doctor }}
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="id_date"><i class="fa fa-calendar-o"></i> Date:</label>
+                                    <input class="form-control" id="id_date" name="date" type="text" placeholder="yyyy-mm-dd"/>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="id_time"><i class="fa fa-clock-o"></i> Time:</label>
+                                    <input class="form-control" id="id_time" name="time" type="text" placeholder="hh:mm:ss"/>
+                                </div>
+
+                                {%  if conflict %}
+                                    <p class="text-danger">That time-slot is unavailable, please try again.</p>
+                                {%  endif %}
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span> Create</button>
+                                <button type="button" class="btn btn-danger pull-right" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                            </div>
+                        </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+

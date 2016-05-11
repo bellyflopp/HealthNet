@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    <style>
+        .profile{
+            margin: auto;
+            width: 50vw;
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            padding-left: 10vh;
+            padding-right: 10vh;
+        }
+
+    </style>
+</head>
+
+<body>
+        <div class="profile">
+            <form action="/register/" method="post">
+                {% csrf_token %}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>User Information</strong></div>
+                    <table class="table table-striped">
+                        <div class="panel-content">{{ userForm.as_table }}</div>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Patient Information</strong></div>
+                    <table class="table table-striped">
+                        <div class="panel-content">{{ profileForm.as_table }}</div>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Medical Information</strong></div>
+                    <table class="table table-striped">
+                        <div class="panel-content">{{ medicalForm.as_table }}</div>
+                    </table>
+                </div>
+
+                <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span> Register</button>
+            </form>
+        </div>
+{#    {%  endif %}#}
+
+
+</body>
+</html>

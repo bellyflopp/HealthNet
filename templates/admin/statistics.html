@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>System/Hospital Statistics</title>
+</head>
+<body>
+    <form action="/admin/home">
+        <button>Back</button>
+    </form>
+    <h1>System Statistics</h1>
+    <p>Page Views: {{ pageviews }}</p>{# Write each system stat in this way until we can get some formatting in here #}
+    <p>Total Users: {{ users }}</p>
+
+    <h2>Prescription Statistics</h2>
+
+    {% for drug, quantity in sorted_drugs.items %}
+        <p>{{ drug }}: {{ quantity }}</p>
+    {% endfor %}
+
+    <h1>Hospital Statistics</h1>
+    <p>None yet, nothing to log has been written yet.</p>
+</body>
+</html>

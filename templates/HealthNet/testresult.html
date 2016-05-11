@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+</head>
+<body>
+    {% if uploaded %}
+        <p>Test results created.</p>
+        <form action="/doctor/#tests">
+            <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Back</button>
+        </form>
+        <form action="/doctor/testresult">
+            <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Create Another Result</button>
+        </form>
+    {% else %}
+        <form action="/doctor/testresult" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ testForm }}
+            <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span> Submit</button>
+        </form>
+    {% endif %}
+</body>
+</html>

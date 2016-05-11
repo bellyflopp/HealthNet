@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+{%  include 'HealthNet/base.html' %}
+<html>
+    <head>
+        <title>HealthNet</title>
+        <style>
+            .top {
+                background: #3B5998;
+                border-style: none;
+                border-radius: 0;
+                height: 15vh;
+                padding-left: 1vw;
+                padding-top: 1vh;
+                box-shadow: 3px 3px 20px black;
+            }
+
+            .panel-default{
+                margin: auto;
+                margin-top: 5vh;
+                margin-bottom: 5vh;
+                padding-bottom: 5vh;
+                width: 75vw;
+            }
+            .table{
+                border: none;
+                margin: auto;
+                margin-top: 5vh;
+                width: 60vw;
+                margin-bottom: 5vh;
+            }
+
+            .btn{
+                margin-bottom: 5vh;
+            }
+
+            .reg {
+                margin-left: 25vw;
+            }
+
+            .can{
+                margin-right: 25vw;
+            }
+
+            .container{
+                margin-top: 5vh;
+            }
+
+        </style>
+    </head>
+
+    <body>
+        <div class = "nav top">
+            <h1 style="color: white;">Register for HealthNet</h1>
+        </div>
+
+        {% if registered %}
+            <center class="container">
+                <h1 style="">Thank you for registering with HealthNet</h1>
+                <br><br>
+                <form action="/login/" class = "loginbutton" >
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-log-in"></span> Main Page</button>
+                </form>
+            </center>
+
+        <!--<a href="/HealthNet/">Return to the homepage.</a><br />-->
+        {% else %}
+            <form action="/register/" method="post">
+                {% csrf_token %}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>User Information</strong></div>
+                    <table class="table table-striped">
+                        <div class="panel-content">
+                            <tr><th><label for="id_first_name">First name:</label></th><td><input class="form-control" id="id_first_name" maxlength="30" name="first_name" type="text" placeholder="first" /></td></tr>
+                            <tr><th><label for="id_last_name">Last name:</label></th><td><input class="form-control" id="id_last_name" maxlength="30" name="last_name" type="text" placeholder="last"/></td></tr>
+                            <tr><th><label for="id_username">Username:</label></th><td><input class="form-control" id="id_username" maxlength="30" name="username" type="text" placeholder="username"/></td></tr>
+                            <tr><th><label for="id_email">Email address:</label></th><td><input class="form-control" id="id_email" maxlength="254" name="email" type="email" placeholder="email@email.com"/></td></tr>
+                            <tr><th><label for="id_password">Password:</label></th><td><input class="form-control" id="id_password" name="password" type="password" placeholder="password"/></td></tr>
+                        </div>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Patient Information</strong></div>
+                    <table class="table table-striped">
+                        <div class="panel-content">
+                            <tr><th><label for="id_birthday">Birthday:</label></th><td><input class="form-control" id="id_birthday" name="birthday" type="text" placeholder="yyyy-mm-dd"/></td></tr>
+                            <tr><th><label for="id_gender">Gender:</label></th><td>{{ profileForm.gender }}</td></tr>
+                            <tr><th><label for="id_phone">Phone Number:</label></th><td><input class="form-control" id="id_phone" maxlength="20" name="phone" type="text" placeholder="555-555-5555"/></td></tr>
+                            <tr><th><label for="id_houseNumber">House Number:</label></th><td><input class="form-control" id="id_houseNumber" name="houseNumber" type="number" value="0" /></td></tr>
+                            <tr><th><label for="id_street">Street:</label></th><td><input class="form-control" id="id_street" maxlength="50" name="street" type="text" placeholder="street"/></td></tr>
+                            <tr><th><label for="id_town">Town:</label></th><td><input class="form-control" id="id_town" maxlength="50" name="town" type="text" placeholder="town"/></td></tr>
+                            <tr><th><label for="id_state">State:</label></th><td>{{ profileForm.state }}</td></tr>
+                            <tr><th><label for="id_zip">Zip:</label></th><td><input class="form-control" id="id_zip" maxlength="10" name="zip" type="text" placeholder="55555"/></td></tr>
+                        </div>
+                    </table>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><strong>Medical Information</strong></div>
+                    <table class="table table-striped">
+                        <tr><th><label for="id_height">Height:</label></th><td><input class="form-control" id="id_height" name="height" type="number" placeholder="inches" /></td></tr>
+                        <tr><th><label for="id_weight">Weight:</label></th><td><input class="form-control" id="id_weight" name="weight" type="number" placeholder="lbs" /></td></tr>
+                        <tr><th><label for="id_insuranceNum">Insurance Number:</label></th><td><input class="form-control" id="id_insuranceNum" name="insuranceNum" type="number" placeholder="0000000000" /></td></tr>
+                        <tr><th><label for="id_doctor">Doctor Username:</label></th><td>{{ medicalForm.doctor }}</td></tr>
+                        <tr><th><label for="id_doctor">Preferred Hospital:</label></th><td>{{ medicalForm.hospital }}</td></tr>
+                        <tr><th><label for="id_doctor">Bloodtype:</label></th><td>{{ medicalForm.bloodType }}</td></tr>
+                        <tr><th><label for="id_emergencyContactFirst">Emergency Contact First Name:</label></th><td><input class="form-control" id="id_emergencyContactFirst" maxlength="50" name="emergencyContactFirst" type="text" placeholder="first" /></td></tr>
+                        <tr><th><label for="id_emergencyContactLast">Emergency Contact Last Name:</label></th><td><input class="form-control" id="id_emergencyContactLast" maxlength="50" name="emergencyContactLast" type="text" placeholder="last"/></td></tr>
+                        <tr><th><label for="id_emergencyContactEmail">Emergency Contact Email:</label></th><td><input class="form-control" id="id_emergencyContactEmail" maxlength="254" name="emergencyContactEmail" type="email" placeholder="email@email.com"/></td></tr>
+                        <tr><th><label for="id_emergencyContactPhone">Emergency Contact Phone Number:</label></th><td><input class="form-control" id="id_emergencyContactPhone" maxlength="20" name="emergencyContactPhone" type="text" placeholder="555-555-5555"/></td></tr>
+                    </table>
+                </div>
+
+                <button type="submit" class="reg btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span> Register</button>
+            </form>
+
+            <form action="/login/">
+                <button type="submit" class="can btn btn-danger pull-right"><span class="glyphicon glyphicon-remove"></span> Cancel</button>
+            </form>
+        {% endif %}
+
+    </body>
+</html>

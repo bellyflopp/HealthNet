@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% include "HealthNet/base.html" %}
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+
+    {%  include 'HealthNet/homeStyle.html' %}
+</head>
+
+<body>
+    <div class = "top">
+        <h1 class="HealthNet" style="color: white;"><i class="fa fa-heartbeat"></i> Welcome to HealthNet, {{ patient.patient.first_name }}</h1>
+
+        <form action="/logout/" class = "logbuttonform">
+            <button type="submit" class="btn btn-default pull-right"><span class="glyphicon glyphicon-log-out"></span> Logout</button>
+        </form>
+    </div>
+
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" id="home_tab" href="#home"><span class="glyphicon glyphicon-home"></span><strong> Home</strong></a></li>
+        <li><a data-toggle="tab" id="profile_tab" href="#profile"><span class="glyphicon glyphicon-user"></span><strong> View Profile</strong></a></li>
+        <li><a data-toggle="tab" id="medical_tab" href="#medical"><span class="glyphicon glyphicon-list"></span><strong> View Medical Info</strong></a></li>
+        <li><a data-toggle="tab" id="prescriptions_tab" href="#prescriptions"><i class="fa fa-eyedropper"></i><strong> View Prescriptions</strong></a></li>
+        <li><a data-toggle="tab" id="tests_tab" href="#tests"><i class="fa fa-flask"></i><strong> View Tests</strong></a></li>
+        <li><a data-toggle="tab" id="calendar_tab" href="#calendar"><i class="fa fa-calendar"></i><strong> View Appointments</strong></a></li>
+        <li><a data-toggle="tab" id="messages_tab" href="#messages"><span class="glyphicon glyphicon-envelope"></span><strong> Messages</strong></a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            {% include "HealthNet/patientHome.html" %}
+        </div>
+
+        <div id="profile" class="tab-pane fade">
+            {% include "HealthNet/modprofile.html" %}
+        </div>
+
+        <div id="medical" class="tab-pane fade">
+            {% include "HealthNet/viewmed.html" %}
+        </div>
+
+        <div id="prescriptions" class="tab-pane fade">
+            {% include "HealthNet/prescriptionsTab.html" %}
+        </div>
+
+        <div id="tests" class="tab-pane fade">
+            {% include "HealthNet/testsTab.html" %}
+        </div>
+
+        <div id="messages" class="tab-pane fade">
+            {% include "HealthNet/message.html" %}
+        </div>
+
+        <div id="calendar" class="tab-pane fade">
+            {% include "HealthNet/calendar.html" %}
+        </div>
+    </div>
+</body>
+
+{% include 'HealthNet/homeScripts.html' %}
+
+</html>

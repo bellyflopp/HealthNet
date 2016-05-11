@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HealthNet</title>
+</head>
+<body>
+    {% if released %}
+        <p>Test released</p>
+    {% else %}
+        <p>Test withdrawn</p>
+    {% endif %}
+    <form action="/doctor/#tests" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Accept</button>
+    </form>
+    <form action="/doctor/releasetest?testId={{ testId }}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success pull-left"><span class="glyphicon glyphicon-ok"></span>Cancel</button>
+    </form>
+</body>
+</html>

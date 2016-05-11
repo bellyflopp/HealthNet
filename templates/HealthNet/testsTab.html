@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .tests{
+            padding-top: 5vh;
+            padding-bottom: 5vh;
+            padding-left: 10vh;
+            padding-right: 10vh;
+        }
+
+        .panel-title{
+            padding-top: 1vh;
+            padding-left: 1vw;
+        }
+
+        .myButtons{
+            position: absolute;
+            right: -3vw;
+        }
+
+        .col-md-2{
+            margin-left: 8vh;
+        }
+
+        {% if type == "patient" %}
+            .comment{
+                margin-right: 5vw !important;
+            }
+        {% endif %}
+
+    </style>
+</head>
+<body>
+    <div class="row tests">
+        <h1 style="color: #3B5998">{{ patient.patient.first_name }} {{ patient.patient.last_name }}'s Tests </h1>
+
+        {% if type == 'doctor' and same %}
+            <button type="submit" class="btn btn-success pull-right" data-toggle="modal" data-target="#newTest"><i class="glyphicon glyphicon-plus"></i> Add New Test</button>
+        {%  endif %}
+
+        {% if type == 'doctor' %}
+        <div class="col-lg-6">
+        {% else %}
+        <div class="col-lg-2">
+        {% endif %}
+            <h3>Pending Tests</h3>
+
+            <table class="table" data-link="row">
+                <thead>
+                    <tr>
+                        <th>Test Name</th>
+
+                        {% if same %}
+                            <th>Edit</th>
+                            <th>Upload</th>
+                            <th>Release</th>
+                        {%  endif %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for test in pending %}
+                        <tr>
+                            <td>{{ test.testName }}</td>
+
+                            {% if same %}
+                                <td>
+                                    <a role="button" type="submit" class="btn btn-warning" href="/doctor/edittest?patient={{ patient.patient.id }}&testId={{ test.id }}&new={{ False }}&edited={{ False }}&delete={{ False }}">
+                                        <i class="fa fa-pencil-square-o"></i> Edit Test
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action="/doctor/upload?testId={{ test.id }}&patient={{ patient.patient.id }}" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-default"><i class="fa fa-upload"></i> Upload File</button>
+                                    </form>
+                                </td>
+                                <td>
+                                    <form action="/viewprofile?patient={{ patient.patient.id }}&releasing={{ True }}&testId={{ test.id }}&new={{ False }}&edited={{ False }}&delete={{ False }}&#tests" method="post">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-success pull-left"><i class="fa fa-share"></i> Release</button>
+                                    </form>
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if type == 'doctor' %}
+        <div class="col-lg-6">
+        {% else %}
+        <div class="col-lg-10">
+        {% endif %}
+            <h3>Completed Tests</h3>
+            {% for test in completed %}
+                <div class="panel panel-default" style="width: 98% !important;">
+                    <div class="panel-heading clearfix">
+                        <div class="row">
+                            <strong class="panel-title pull-left">{{ test.testName }}</strong>
+
+                            <div class="myButtons">
+                                <div class="col-md-2">
+                                    <div id="comment" class="comment modal fade" role="dialog">
+                                        {% include "HealthNet/comment.html" %}
+                                    </div>
+
+                                    <button type="button" class="btn btn-warning comment" data-toggle="modal" data-target="#comment"><i class="fa fa-pencil"></i> Comment</button>
+                                </div>
+
+                                {% if same %}
+                                    <div class="col-md-2">
+                                        <form action="/viewprofile?patient={{ patient.patient.id }}&releasing={{ True }}&testId={{ test.id }}&edited={{ False }}&delete={{ False }}&upload={{ False }}#tests" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Withdraw</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <strong>Results: </strong>
+                        {{ test.result }}
+                        <br><br>
+                        <strong>Notes: </strong>
+                        {{ test.notes }}
+                        <br><br>
+                        <strong>Comments: </strong>
+                        <br>
+                        {% for comment in comments %}
+                            {% if comment.test == test %}
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<strong>{{ comment.author.first_name }} {{ comment.author.last_name }} :</strong> {{ comment.comment }}<br>
+                            {% endif %}
+                        {% endfor %}
+                        <br>
+                        <strong>Files: </strong>
+                        {% for key, files in completedfiles.items %}
+                            {% if key == test.id %}
+                                </br>
+                                {% for file in files %}
+                                    &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="/HealthNet/serve?userid={{ file.userid }}&filename={{ file.shortname }}">{{ file.shortname }}</a>
+                                    </br>
+                                {% endfor %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+    <!-- Modal -->
+    <div id="newTest" class="modal fade" role="dialog">
+        {% include "HealthNet/newTest.html" %}
+    </div>
+</body>
+</html>
