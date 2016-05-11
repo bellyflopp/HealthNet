@@ -3,8 +3,13 @@ Team Members: Chris Lim, Cole Rogers, Kyle McVay, Soowon Moon, Maximillian McMul
 
 HealthNet Project For SWEN261
 
-HealthNet is meant to enable hospitals in the US to be able to manage both employees and patients. The successful implementation should make it easy for users to easily sign-up as patients so that the hospital can easily manage everything in their day-to-day work-flow.
-The HealthNet product is intended to improve hospitals by providing an easy mechanism for managing employees, gathering statistical data on the inner workings of the hospital, signing up patients, making appointments, and allowing ease of transfer of both patients and their information between hospitals. 
+HealthNet is meant to enable hospitals in the US to be able to manage both employees and patients.
+The successful implementation should make it easy for users to easily sign-up as patients so that the hospital can
+easily manage everything in their day-to-day work-flow.
+
+The HealthNet product is intended to improve hospitals by providing an easy mechanism for managing employees,
+gathering statistical data on the inner workings of the hospital, signing up patients, making appointments,
+and allowing ease of transfer of both patients and their information between hospitals.
 
 Developer Tool Versions:
 Python 3.4.3
